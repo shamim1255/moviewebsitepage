@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Store - Download App</title>
+    <!-- Google Fonts for a better look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Internal CSS for styling -->
+    <style>
+        /* Basic Reset and Font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            height: 100%;
+            background-color: #000; /* ফলব্যাক ব্যাকগ্রাউন্ড */
+        }
+        
+        /* উপরের হেডার বার */
+        .top-header {
+            background-color: rgba(15, 15, 15, 0.8); /* হালকা স্বচ্ছ কালো হেডার */
+            backdrop-filter: blur(10px); /* হেডারকে ব্লার ইফেক্ট দেওয়া হয়েছে */
+            padding: 12px 25px;
+            position: fixed; /* স্ক্রিনের উপরে ফিক্সড থাকবে */
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000; /* সবকিছুর উপরে থাকবে */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            /* আপনার দেওয়া ছবির মতো গ্লো ইফেক্ট */
+            text-shadow: 0 0 8px rgba(255, 195, 0, 0.8);
+        }
+
+        /* The main container that holds the background image */
+        .page-background {
+            /* আপনার দেওয়া ব্যাকগ্রাউন্ড ইমেজ */
+            background-image: url('https://i.postimg.cc/FRhM2Kgr/Screenshot-20250618-161216.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* ফিক্সড হেডারের জন্য উপরে জায়গা তৈরি করা হয়েছে */
+            padding: 80px 20px 20px 20px;
+        }
+
+        /* কালো আস্তরণ (Overlay) - এখন অনেক হালকা করা হয়েছে */
+        .page-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* কালো রঙ ৬০% স্বচ্ছ করা হয়েছে, যাতে পেছনের ছবি ভালো বোঝা যায় */
+            background-color: rgba(0, 0, 0, 0.65); 
+            z-index: 1;
+        }
+
+        /* কন্টেন্ট রাখার জন্য র‍্যাপার */
+        .content-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        /* Slider Styles */
+        .slider-container {
+            width: 90%;
+            max-width: 320px;
+            margin: 0 auto 30px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            /* স্লাইডারের চারপাশে রঙিন গ্লো ইফেক্ট */
+            box-shadow: 0 0 20px rgba(255, 87, 51, 0.7), 0 0 10px rgba(255, 204, 0, 0.8);
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.7s ease-in-out; 
+        }
+
+        .slider img {
+            width: 100%;
+            flex-shrink: 0;
+            border-radius: 10px;
+        }
+
+        /* Download Button Styles - আরও রঙিন */
+        .download-button {
+            display: inline-block;
+            /* আকর্ষণীয় গ্রেডিয়েন্ট বাটন */
+            background-image: linear-gradient(to right, #007bff 0%, #00c6ff 51%, #007bff 100%);
+            background-size: 200% auto;
+            color: #ffffff;
+            padding: 15px 45px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px; /* গোলাকার বাটন */
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 114, 255, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .download-button:hover {
+            background-position: right center; /* হোভার করলে রঙ পরিবর্তন হবে */
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 114, 255, 0.6);
+        }
+
+        /* Description Box Styles */
+        .description-box {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .description-box h2 {
+            margin-bottom: 10px;
+            color: #ffc300; /* সোনালী রঙ */
+            font-weight: 700;
+        }
+
+        .description-box p {
+            font-size: 0.9rem;
+            color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- নতুন টপ হেডার বার -->
+    <header class="top-header">
+        <h1 class="header-title">Movie Store</h1>
+    </header>
+
+    <div class="page-background">
+        <div class="content-container">
+
+            <!-- Image Slider -->
+            <div class="slider-container">
+                <div class="slider">
+                    <!-- Image 1 -->
+                    <img src="https://i.postimg.cc/nrz6hwPN/Screenshot-20250618-161230.png" alt="Movie Poster 1">
+                    <!-- Image 2 -->
+                    <img src="https://i.postimg.cc/FRhM2Kgr/Screenshot-20250618-161216.png" alt="Movie Poster 2">
+                </div>
+            </div>
+
+            <!-- Download Button -->
+            <a href="https://drive.google.com/uc?export=download&id=1dTbq4qHbhUH9aHt79KsH2Vuob_a26GkI" class="download-button" download>
+                Download Now (APK)
+            </a>
+
+            <!-- App Description -->
+            <div class="description-box">
+                <h2>Explore Exciting Movies</h2>
+                <p>
+                    Get ready for an unparalleled movie experience! Our app brings you the latest blockbusters, live updates, and exclusive content. Download now for registration details, new releases, and much more.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Internal JavaScript for automatic slider functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slider = document.querySelector('.slider');
+            const slides = document.querySelectorAll('.slider img');
+            
+            if (slides.length === 0) {
+                return;
+            }
+
+            let currentIndex = 0;
+            const totalSlides = slides.length;
+            const slideInterval = 3000; // স্লাইড ৩ সেকেন্ড পর পর পরিবর্তন হবে
+
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateSliderPosition();
+            }
+
+            function updateSliderPosition() {
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            setInterval(nextSlide, slideInterval);
+        });
+    </script>
+
+</body>
+</html>
